@@ -1,12 +1,15 @@
 import 'dart:io';
 import 'header_zaunfunk.dart';
 import 'loading.dart';
+import 'data/database_repository.dart';
+import 'data/mock_database.dart';
 
-String userName = "Sascha";
-String userPassword = "baum123";
 
-bool isLoginCorrect(String userInputName, String userInputPassword) {
-  if (userInputName == userName && userInputPassword == userPassword) {
+//String userName = "Sascha";
+//String userPassword = "baum123";
+
+bool isLoginCorrect(bool isLoginCorrect) {
+  if (isLoginCorrect) {
     stdout.write('\x1B[2J\x1B[0;0H');
     loadingLogin();
     return true;
