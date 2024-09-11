@@ -1,21 +1,31 @@
 import 'dart:io';
+import 'data/database_repository.dart';
+import 'data/mock_database.dart';
 import 'header_zaunfunk.dart';
-import 'login.dart';
-import 'show_feed.dart';
 import 'intro.dart';
+import 'loading_register.dart';
+import 'login.dart';
+import 'models/user_article.dart';
+import 'show_feed.dart';
 
 void main() {
+  DatabaseRepository mockDatabase = MockDatabase();
+
   bool isProgrammRunning = true;
   bool isLoginInputCorrect = false;
   String userInput = "";
   String userArticle = "";
   String userInputName = "";
   String userInputPassword = "";
+  String loggedInUser = "";
+  String regiterInputName = "";
+  String regiterInputPassword = "";
+  String deleteInputName = "";
+  String deleteInputPassword = "";
 
-  List<String> feed = [
-    "Otto : Ich habe Gehwegplatten abzugeben !",
-    "Jane : Möchte jemand Ableger von meinen Rosen haben ?"
-  ];
+  List<UserArticle> articles = mockDatabase.getArticles();
+
+  
 
   stdout.write('\x1B[2J\x1B[0;0H');
   intro();
@@ -30,6 +40,7 @@ void main() {
       print("(einloggen für mehr Auswahl)");
       stdout.write("\n");
       stdout.write("•(L)ogin   ");
+      stdout.write("•(R)egistrieren   ");
     } else {
       print("Du hast die Auswahl zwischen :");
       stdout.write("\n");
@@ -38,6 +49,7 @@ void main() {
     if (isLoginInputCorrect) {
       stdout.write("•(F)eed anzeigen   ");
       stdout.write("•Beitrag (e)rstellen   ");
+      stdout.write("•(A)ccount löschen   ");
     }
     stdout.write("•Programm (b)eenden");
     stdout.write("\n\n");
@@ -62,13 +74,32 @@ void main() {
         userInputName = stdin.readLineSync()!;
         stdout.write("Passwort : ");
         userInputPassword = stdin.readLineSync()!;
-        isLoginInputCorrect = isLoginCorrect(userInputName, userInputPassword);
+        isLoginInputCorrect = isLoginCorrect(
+            mockDatabase.checkLoginData(userInputName, userInputPassword));
+        if (isLoginInputCorrect) {
+          loggedInUser = userInputName;
+        }
+      case "r" || "R":
+        stdout.write('\x1B[2J\x1B[0;0H');
+        header();
+        stdout.write("\n");
+
+        print(
+            "Zum registrieren, Nutzernamen und Passwort eingeben ! Mit 'Enter' bestätigen !");
+        stdout.write("Nutzername : ");
+        regiterInputName = stdin.readLineSync()!;
+        stdout.write("Passwort : ");
+        regiterInputPassword = stdin.readLineSync()!;
+        mockDatabase.createUser(regiterInputName, regiterInputPassword);
+        stdout.write('\x1B[2J\x1B[0;0H');
+        loadingRegister();
 
       case "f" || "F":
         stdout.write('\x1B[2J\x1B[0;0H');
         stdout.write("\n\n");
         header();
-        showFeed(feed);
+        showFeed(mockDatabase.getFeed(articles));
+      
 
       case "e" || "E":
         stdout.write('\x1B[2J\x1B[0;0H');
@@ -77,16 +108,36 @@ void main() {
         print("Beitrag verfassen und mit 'Enter' bestätigen !");
         stdout.write("Beitrag erstellen : ");
         userArticle = stdin.readLineSync()!;
-        feed.add("$userName : " + "$userArticle");
+        mockDatabase.createArticle(loggedInUser, userArticle);
         stdout.write('\x1B[2J\x1B[0;0H');
         stdout.write("\n\n");
-        header();
-        showFeed(feed);
+        
+
       case "o" || "O":
         stdout.write('\x1B[2J\x1B[0;0H');
         header();
         stdout.write("\n");
         stdout.write("Besuche uns bald wieder !");
+        sleep(Duration(seconds: 2));
+        stdout.write('\x1B[2J\x1B[0;0H');
+        isLoginInputCorrect = false;
+
+      case "a" || "A":
+        stdout.write('\x1B[2J\x1B[0;0H');
+        header();
+        stdout.write("\n");
+
+        print(
+            "Zum löschen deines Accounts, Nutzernamen und Passwort eingeben ! Mit 'Enter' bestätigen !");
+        stdout.write("Nutzername : ");
+        deleteInputName = stdin.readLineSync()!;
+        stdout.write("Passwort : ");
+        deleteInputPassword = stdin.readLineSync()!;
+        mockDatabase.deleteUser(deleteInputName, deleteInputPassword);
+        stdout.write('\x1B[2J\x1B[0;0H');
+        header();
+        stdout.write("\n");
+        stdout.write("Dein Account wird gelöscht !");
         sleep(Duration(seconds: 2));
         stdout.write('\x1B[2J\x1B[0;0H');
         isLoginInputCorrect = false;
