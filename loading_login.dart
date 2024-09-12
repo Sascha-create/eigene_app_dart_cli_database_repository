@@ -1,9 +1,6 @@
 import 'dart:io';
 import 'header_zaunfunk.dart';
 
-void main() {
-  loadingLogin();
-}
 
 void loadingLogin() {
   int times = 3;

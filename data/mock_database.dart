@@ -13,6 +13,11 @@ class MockDatabase implements DatabaseRepository {
   ];
 
   @override
+  List<User> getUser() {
+    return users;
+  }
+
+  @override
   List<UserArticle> getArticles() {
     return articles;
   }
@@ -54,9 +59,14 @@ class MockDatabase implements DatabaseRepository {
   }
 
   @override
-  void deleteUser(String userName, String userPassword) {
-    if (users.contains(User(userName: userName, userPassword: userPassword))) {
-      users.remove(User(userName: userName, userPassword: userPassword));
+  void deleteUser(String inputUserName, String inputUserPassword) {
+    for (User currentUser in users) {
+      if (currentUser.userName == inputUserName) {
+        if (currentUser.userPassword == inputUserPassword) {
+          users.remove(currentUser);
+          break;
+        }
+      }
     }
   }
 }

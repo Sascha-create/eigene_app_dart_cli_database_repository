@@ -5,6 +5,7 @@ import 'header_zaunfunk.dart';
 import 'intro.dart';
 import 'loading_register.dart';
 import 'login.dart';
+import 'models/user.dart';
 import 'models/user_article.dart';
 import 'show_feed.dart';
 
@@ -13,7 +14,7 @@ void main() {
 
   bool isProgrammRunning = true;
   bool isLoginInputCorrect = false;
-  String userInput = "";
+  String userInput = "";                // variablen entfernen
   String userArticle = "";
   String userInputName = "";
   String userInputPassword = "";
@@ -24,8 +25,7 @@ void main() {
   String deleteInputPassword = "";
 
   List<UserArticle> articles = mockDatabase.getArticles();
-
-  
+  //List<User> users = mockDatabase.getUser();
 
   stdout.write('\x1B[2J\x1B[0;0H');
   intro();
@@ -78,7 +78,10 @@ void main() {
             mockDatabase.checkLoginData(userInputName, userInputPassword));
         if (isLoginInputCorrect) {
           loggedInUser = userInputName;
+          userInputName = "";
+          userInputPassword = "";
         }
+
       case "r" || "R":
         stdout.write('\x1B[2J\x1B[0;0H');
         header();
@@ -99,7 +102,6 @@ void main() {
         stdout.write("\n\n");
         header();
         showFeed(mockDatabase.getFeed(articles));
-      
 
       case "e" || "E":
         stdout.write('\x1B[2J\x1B[0;0H');
@@ -111,7 +113,6 @@ void main() {
         mockDatabase.createArticle(loggedInUser, userArticle);
         stdout.write('\x1B[2J\x1B[0;0H');
         stdout.write("\n\n");
-        
 
       case "o" || "O":
         stdout.write('\x1B[2J\x1B[0;0H');
