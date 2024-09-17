@@ -3,7 +3,7 @@ import '../models/user_article.dart';
 
 abstract class DatabaseRepository {
   //void showArticles(List<UserArticle> articles) {}
-  List<User> getUser();
+  List<User> getAllUser(); 
 
   List<UserArticle> getArticles();
 
@@ -17,5 +17,5 @@ abstract class DatabaseRepository {
   //Create
   void createArticle(String userName, String userArticle);
   //Delete
-  void deleteUser(String inputUserName, String inputUserPassword);
+  void deleteUser(User user);
 }

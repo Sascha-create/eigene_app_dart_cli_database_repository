@@ -25,7 +25,7 @@ void main() {
   String deleteInputPassword = "";
 
   List<UserArticle> articles = mockDatabase.getArticles();
-  //List<User> users = mockDatabase.getUser();
+  //List<User> users = mockDatabase.getAllUser();
 
   stdout.write('\x1B[2J\x1B[0;0H');
   intro();
@@ -134,7 +134,7 @@ void main() {
         deleteInputName = stdin.readLineSync()!;
         stdout.write("Passwort : ");
         deleteInputPassword = stdin.readLineSync()!;
-        mockDatabase.deleteUser(deleteInputName, deleteInputPassword);
+        mockDatabase.deleteUser(User(userName: deleteInputName, userPassword: deleteInputPassword));
         stdout.write('\x1B[2J\x1B[0;0H');
         header();
         stdout.write("\n");
