@@ -24,8 +24,7 @@ void main() {
   String deleteInputName = "";
   String deleteInputPassword = "";
 
-  List<UserArticle> articles = mockDatabase.getArticles();
-  //List<User> users = mockDatabase.getAllUser();
+  
 
   stdout.write('\x1B[2J\x1B[0;0H');
   intro();
@@ -101,7 +100,7 @@ void main() {
         stdout.write('\x1B[2J\x1B[0;0H');
         stdout.write("\n\n");
         header();
-        showFeed(mockDatabase.getFeed(articles));
+        showFeed(mockDatabase.getFeed());
 
       case "e" || "E":
         stdout.write('\x1B[2J\x1B[0;0H');

@@ -7,7 +7,7 @@ abstract class DatabaseRepository {
 
   List<UserArticle> getArticles();
 
-  List<String> getFeed(List<UserArticle> articles);
+  List<String> getFeed();
 
   //Create
   void createUser(String userName, String userPassword);

@@ -23,7 +23,7 @@ class MockDatabase implements DatabaseRepository {
   }
 
   @override
-  List<String> getFeed(List<UserArticle> articles) {
+  List<String> getFeed() {
     List<String> feed = [];
     for (UserArticle currentArticle in articles) {
       feed.add("${currentArticle.userName} : ${currentArticle.userArticle}");
